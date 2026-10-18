@@ -1,0 +1,240 @@
+@import "tailwindcss";
+@import "@xyflow/react/dist/style.css";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Semantic tokens. Dark is the product default; light exists for print/report contexts and preference. */
+:root,
+[data-theme="dark"] {
+  /* Ink: neutral near-black, no blue cast. Bone: warm off-white for text and primary actions. */
+  --bg: #07080a;
+  --surface: #0d0f12;
+  --elevated: #14171c;
+  --hover: #1a1e24;
+  --border: #1f242b;
+  --border-strong: #2d343d;
+  --fg: #edebe6;
+  --muted: #9a9ea6;
+  --subtle: #62676f;
+  --primary: #edebe6;
+  --primary-fg: #0b0c0e;
+  --accent: #8b7cff;
+  --accent-fg: #0b0a1a;
+  --accent-soft: rgb(139 124 255 / 0.1);
+  --healthy: #32c48d;
+  --warning: #f2b84b;
+  --critical: #f06472;
+  --info: #7fb2e5;
+  --healthy-soft: rgb(50 196 141 / 0.1);
+  --warning-soft: rgb(242 184 75 / 0.1);
+  --critical-soft: rgb(240 100 114 / 0.1);
+  --info-soft: rgb(127 178 229 / 0.1);
+  --shadow: inset 0 1px 0 rgb(255 255 255 / 0.035);
+  --aura: radial-gradient(60% 50% at 50% 0%, rgb(139 124 255 / 0.07), transparent 70%);
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --bg: #f4f3ef;
+  --surface: #fbfaf7;
+  --elevated: #efede8;
+  --hover: #e9e7e1;
+  --border: #e0ddd5;
+  --border-strong: #cbc7bd;
+  --fg: #121316;
+  --muted: #5d6068;
+  --subtle: #8a8d94;
+  --primary: #121316;
+  --primary-fg: #f4f3ef;
+  --accent: #6553f0;
+  --accent-fg: #ffffff;
+  --accent-soft: rgb(101 83 240 / 0.09);
+  --healthy: #12925f;
+  --warning: #a86e0c;
+  --critical: #d23447;
+  --info: #2f6fae;
+  --healthy-soft: rgb(18 146 95 / 0.09);
+  --warning-soft: rgb(168 110 12 / 0.09);
+  --critical-soft: rgb(210 52 71 / 0.09);
+  --info-soft: rgb(47 111 174 / 0.09);
+  --shadow: 0 1px 2px rgb(18 19 22 / 0.04);
+  --aura: radial-gradient(60% 50% at 50% 0%, rgb(101 83 240 / 0.05), transparent 70%);
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-elevated: var(--elevated);
+  --color-hover: var(--hover);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-primary: var(--primary);
+  --color-primary-fg: var(--primary-fg);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-healthy: var(--healthy);
+  --color-warning: var(--warning);
+  --color-critical: var(--critical);
+  --color-info: var(--info);
+  --color-healthy-soft: var(--healthy-soft);
+  --color-warning-soft: var(--warning-soft);
+  --color-critical-soft: var(--critical-soft);
+  --color-info-soft: var(--info-soft);
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, SFMono-Regular, monospace;
+  --shadow-panel: var(--shadow);
+  --radius-panel: 14px;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  border-color: var(--border);
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--fg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Thin, quiet scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+/* Film grain: fixed, non-interactive, never on scrolling containers */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+[data-theme="light"] .grain::after {
+  opacity: 0.025;
+}
+
+.aura {
+  background-image: var(--aura);
+  background-repeat: no-repeat;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--subtle);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Dot grid used only behind graph canvases, where it aids spatial reading */
+.canvas-grid {
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* React Flow theming */
+.react-flow {
+  --xy-background-color: transparent;
+  --xy-node-background-color: var(--elevated);
+  --xy-node-border: 1px solid var(--border);
+  --xy-edge-stroke: var(--border-strong);
+  --xy-controls-button-background-color: var(--elevated);
+  --xy-controls-button-background-color-hover: var(--hover);
+  --xy-controls-button-color: var(--muted);
+  --xy-controls-button-border-color: var(--border);
+  --xy-minimap-background-color: var(--surface);
+  --xy-attribution-background-color: transparent;
+}
+.react-flow__controls {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: none;
+}
+.react-flow__attribution {
+  display: none;
+}
+
+@keyframes ticker-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.ticker-in {
+  animation: ticker-in 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.live-pulse {
+  animation: live-pulse 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only-surface {
+    background: #fff !important;
+    color: #111 !important;
+    border: none !important;
+  }
+}
